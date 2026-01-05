@@ -13,7 +13,8 @@ const app = express()
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://revive.kgpian.site"
+    "https://revive.kgpian.site",
+    /^https:\/\/.*\.vercel\.app$/
   ],
   credentials: true
 }));
