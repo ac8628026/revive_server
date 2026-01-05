@@ -1,0 +1,10 @@
+this will ts project 
+
+install @types also with express and other librarys.
+add script for npm run build => convert ts to js and store in dist 
+npm run start =>  run js file in dist 
+npm run dev => build and run js file( npm run build & npm run start)
+
+try to complete this 
+https://petal-estimate-4e9.notion.site/Building-a-second-brain-app-1407dfd1073580c19ac3cbe9afa9ac27
+
