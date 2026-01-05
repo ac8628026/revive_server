@@ -23,21 +23,23 @@ const passwordFormate = z.string()
 
 const signupSchema = z.object({
   name: z.string().min(1),
-  email: z.email(),
+  email: z.string().email(),
   password: passwordFormate
 });
 
 const signinSchema = z.object({
-  email: z.email(),
+  email: z.string().email(),
   password: z.string().min(1)
 });
+
 
 routes.post("/user/signup",async(req:Request,res:Response)=>{
 
     const parsereqbody =  signupSchema.safeParse(req.body);
 
     if(!parsereqbody.success){
-        const errors = parsereqbody.error.issues.map((issue)=>issue.message).join(",")
+        const errors = parsereqbody.error.issues.map((issue: z.ZodIssue) => issue.message).join(",");
+
         res.status(400).json({message:errors}) 
          return
     }
