@@ -4,8 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "tsc -b",
-    "start": "node ./dist/main.js",
+    "build": "tsc",
+    "start": "node dist/main.js",
     "dev": "npm run build & npm run start"
   },
   "keywords": [],
