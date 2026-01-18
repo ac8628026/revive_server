@@ -8,6 +8,7 @@ import auth from '../middleware/authMiddleware.js'
 import type {Request,Response} from 'express';
 import { randomUUID } from "crypto"
 import dotenv from 'dotenv'
+import { extractionQueue } from "../queue/extractionQueue.js"
 dotenv.config();
 
 
@@ -133,14 +134,23 @@ routes.post("/contents",auth,async (req:Request,res:Response)=>{
     const userId = req.userId;
     if(!userId){return res.status(401).json({message:"Invalid or Expire Token"})}
     try{
-        await ContentModel.create({
+        const content = await ContentModel.create({
           link,
           title,
           type,
-          userId:userId
+          userId:userId,
+          status: "PENDING_EXTRACTION"
         })
+      const job =   await extractionQueue.add(
+           "extract-link",
+           { contentId: content._id.toString()},
+           { jobId: content._id.toString() }
+         );
+         console.log("adding queue",job.id)
+        const jobcount = await extractionQueue.getJobCounts()
+        console.log("total jobs are ",jobcount);
         const allcontent = await ContentModel.find({userId:userId})
-        res.status(201).json({contents:allcontent})
+        res.status(202).json({contents:allcontent})
     }
     catch(err){
         res.status(500).json({message:"something went wrong"})

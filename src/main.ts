@@ -1,9 +1,10 @@
 import express from 'express'
-import {routes} from './routes/route.js'
+import {routes} from './routes/content.route.js'
 import mongoose from 'mongoose'
 import cors from 'cors'
 
 import dotenv from 'dotenv'
+import {chatRoute} from './routes/chat.route.js'
 dotenv.config();
 
 console.log("ABOUT TO LISTEN ON PORT", process.env.PORT);
@@ -21,6 +22,7 @@ app.use(cors({
 
 
 app.use(express.json())
+app.use('/v0/api/chat',chatRoute)
 app.use("/v0/api",routes)
 
 
